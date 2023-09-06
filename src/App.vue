@@ -30,7 +30,7 @@
               <button class="button is-light">
                 &check;
               </button>
-              <button class="button is-danger ml-2">
+              <button @click="deleteTodo(todo.id)" class="button is-danger ml-2">
                 &cross;
               </button>
             </div>
@@ -48,16 +48,16 @@ import { ref } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 
 const todos = ref([
-  // {
-  //   id: '1',
-  //   content: 'Feed the dog',
-  //   done: false,
-  // },
-  // {
-  //   id: '2',
-  //   content: 'Feed the cat',
-  //   done: false,
-  // }
+  {
+    id: '1',
+    content: 'Feed the dog',
+    done: false,
+  },
+  {
+    id: '2',
+    content: 'Feed the cat',
+    done: false,
+  }
 ]);
 
 const newTodoContent = ref('');
@@ -70,7 +70,11 @@ const addTodo = () => {
   }
   todos.value.unshift(newTodo);
   newTodoContent.value = '';
-}
+};
+
+const deleteTodo = (id) => {
+  todos.value = todos.value.filter(todo => todo.id !== id);
+};
 
 </script>
 
