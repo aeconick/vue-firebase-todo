@@ -45,23 +45,12 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { collection, onSnapshot, addDoc, deleteDoc, doc } from 'firebase/firestore';
+import { collection, onSnapshot, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/firebase';
 
 const todosCollectionReff = collection(db, 'todos');
 
-const todos = ref([
-  // {
-  //   id: '1',
-  //   content: 'Feed the dog',
-  //   done: false,
-  // },
-  // {
-  //   id: '2',
-  //   content: 'Feed the cat',
-  //   done: true,
-  // }
-]);
+const todos = ref([]);
 
 onMounted(() => {
   onSnapshot(todosCollectionReff, (querySnapshot) => {
@@ -95,7 +84,10 @@ const deleteTodo = (id) => {
 
 const toggleDone = (id) => {
   const index = todos.value.findIndex(todo => todo.id === id);
-  todos.value[index].done = !todos.value[index].done;
+
+  updateDoc(doc(todosCollectionReff, id), {
+    done: !todos.value[index].done
+  });
 }
 
 </script>
